@@ -8,5 +8,7 @@
 # time to process.
 # Thus, I will use Resque to process the import tasks in the background.
 class Importer
-
+  @queue = "importer"
+  def self.perform
+  end
 end
