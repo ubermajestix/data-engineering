@@ -45,7 +45,7 @@ namespace :spork do
       Process.detach(pid)
       File.open("#{tmp_dir}/spork.pid", "w"){|f| f.write pid}
      
-      seconds = 15
+      seconds = 5
      
       puts  "\033[35m[Giving Rails #{seconds} seconds to start]\033[0m\n"
       puts "\033[36mYou can change the wait time in lib/tasks/spork.rake \nif Rails is taking longer than #{seconds} seconds to load\033[0m\n"
