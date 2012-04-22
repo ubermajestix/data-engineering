@@ -34,6 +34,11 @@ class Importer
   #
   # However, given the validations on merchant that require a name and
   # address I'm confident this code will work given the example data.
+  # 
+  # Find a merchant by name and address.
+  # If no merchants are found create one.
+  # Returns a Merchant.
+  # Raises ActiveRecord::RecordInvalid if name or address are nil.
   def self.create_merchant(attrs)
     merchant = Merchant.where(attrs).first
     merchant = Merchant.create!(attrs) unless merchant
