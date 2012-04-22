@@ -95,4 +95,30 @@ describe Importer do
       }.to raise_error ActiveRecord::RecordInvalid
     end
   end
+
+  context "#create_purchases" do
+    it "should create a given number of purchases" do
+      expect{
+        Importer.create_purchases(existing_purchaser, existing_item, 2)
+      }.to change(Purchases, :count).by(2)
+    end
+
+    it "can raise validation error if purchaser is nil" do
+      expect{
+        Importer.create_purchases(nil, existing_item, 2)
+      }.to raise_error ActiveRecord::RecordInvalid
+    end
+
+    it "can raise validation error if item is nil" do
+      expect{
+        Importer.create_purchases(existing_purchaser, nil, 2)
+      }.to raise_error ActiveRecord::RecordInvalid
+    end
+
+    it "will not create purchases if count is nil" do
+      expect{
+        Importer.create_purchases(existing_purchaser, existing_item, nil)
+      }.to change(Purchases, :count).by(0)
+    end
+  end
 end
