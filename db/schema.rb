@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120421230438) do
+ActiveRecord::Schema.define(:version => 20120422023557) do
+
+  create_table "items", :force => true do |t|
+    t.string  "description",                   :null => false
+    t.integer "price_in_cents", :default => 0, :null => false
+    t.string  "currency"
+    t.integer "merchant_id",                   :null => false
+  end
 
   create_table "merchants", :force => true do |t|
     t.string "name"
