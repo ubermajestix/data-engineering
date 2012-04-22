@@ -151,5 +151,14 @@ describe Importer do
         Importer.create_purchases(existing_person, existing_item, nil)
       }.to change(Purchase, :count).by(0)
     end
+
+    # This test demonstrates the downside of using to_i to convert the
+    # count. It is here to aid in converting to another approach and
+    # alerts the developer to a potential issue.
+    it "will not create purchases if count can't be converted to an integer" do
+      expect{
+        Importer.create_purchases(existing_person, existing_item, "3ffa6")
+      }.to change(Purchase, :count).by(3)
+    end
   end
 end

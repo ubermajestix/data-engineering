@@ -65,11 +65,19 @@ class Importer
     person = Person.create!(attrs) unless person
     person
   end
-
+  # Will create a Purchase for the given Person and the given Item count
+  # number of times.
+  # This will not create a purchase if count is nil, or a String that
+  # cona't be converted using to_i. A stronger approach could be to use
+  # Integer(count) to check for problematic values such as Strings that
+  # start with digits. 
+  # Given the example data this approach will suffice.
   def self.create_purchases(person, item, count)
-    return unless count
+    #count = Integer(count)
+    count = count.to_i
+    return unless count > 0
     count.times do
-      Purchase.create!(person_id: person, item_id: item)
+      Purchase.create!(person: person, item: item)
     end
   end 
 
