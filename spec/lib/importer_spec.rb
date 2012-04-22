@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 describe Importer do
+  let(:merchant_attrs){ {name: "Milliways", address: "The end of time and matter"} }
+  let(:existing_merchant){Fabricate(:merchant, merchant_attrs)}
+  let(:purchaser_attrs){{name: 'Arthur Dent'}}
+  let(:existing_purchaser){Fabricate(:purchaser, purchaser_attrs)}
+  let(:item_attrs){ {description: "$10 off $20 of tea", price: 100} }
+  let(:existing_item){Fabricate(:item, item_attrs.merge(merchant: existing_merchant))}
+
   context "required for Resque" do
     it "should respond to perform" do
       Importer.should respond_to :perform
@@ -12,8 +19,6 @@ describe Importer do
   end
 
   context "#create_merchant" do
-    let(:merchant_attrs){ {name: "Milliways", address: "The end of time and matter"} }
-    let(:existing_merchant){Fabricate(:merchant, merchant_attrs)}
 
     it "should create a merchant if one doesn't exist" do
       expect{
@@ -48,35 +53,30 @@ describe Importer do
   end
 
   context "#create_item" do
-    let(:merchant){Fabricate(:merchant)}
-    let(:item_attrs){ {description: "$10 off $20 of tea", price: 100} }
-    let(:existing_item){Fabricate(:item, item_attrs.merge(merchant: merchant))}
 
     it "should create an item given a hash and a merchant" do
       expect{
-        Importer.create_item(merchant, item_attrs)
+        Importer.create_item(existing_merchant, item_attrs)
       }.to change(Item, :count).by(1)
     end
 
     it "should assign the merchant to the item" do
-      Importer.create_item(merchant, item_attrs).merchant.should == merchant
+      Importer.create_item(existing_merchant, item_attrs).merchant.should == existing_merchant
     end
 
     it "should find an existing item" do
       existing_item
-      Importer.create_item(merchant, item_attrs).should == existing_item
+      Importer.create_item(existing_merchant, item_attrs).should == existing_item
     end
 
     it "can raise validation errors" do
       expect{
-        Importer.create_item(merchant, price: 10)
+        Importer.create_item(existing_merchant, price: 10)
       }.to raise_error ActiveRecord::RecordInvalid
     end
   end
 
   context "#create_purchaser" do
-    let(:purchaser_attrs){{name: 'Arthur Dent'}}
-    let(:existing_purchaser){Fabricate(:purchaser, purchaser_attrs)}
 
     it "should create a purchaser given a hash" do
       expect{
