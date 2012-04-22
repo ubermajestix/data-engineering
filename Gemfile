@@ -1,9 +1,9 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.3'
+gem 'rails',        '3.1.3'
 gem 'sqlite3'
 gem 'jquery-rails'
-
+gem 'money',        '~> 5.0.0'
 group :assets do
   gem 'sass-rails',   '~> 3.1.5'
   gem 'coffee-rails', '~> 3.1.1'
