@@ -1,4 +1,4 @@
 Fabricator(:purchase) do
-  purchaser! {Fabricate(:purchaser)}
+  person! {Fabricate(:person)}
   item! {Fabricate(:item)}
 end

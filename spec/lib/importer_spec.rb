@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Importer do
   let(:merchant_attrs){ {name: "Milliways", address: "The end of time and matter"} }
   let(:existing_merchant){Fabricate(:merchant, merchant_attrs)}
-  let(:purchaser_attrs){{name: 'Arthur Dent'}}
-  let(:existing_purchaser){Fabricate(:purchaser, purchaser_attrs)}
+  let(:person_attrs){{name: 'Arthur Dent'}}
+  let(:existing_person){Fabricate(:person, person_attrs)}
   let(:item_attrs){ {description: "$10 off $20 of tea", price: 100} }
   let(:existing_item){Fabricate(:item, item_attrs.merge(merchant: existing_merchant))}
 
@@ -76,22 +76,22 @@ describe Importer do
     end
   end
 
-  context "#create_purchaser" do
+  context "#create_person" do
 
-    it "should create a purchaser given a hash" do
+    it "should create a person given a hash" do
       expect{
-        Importer.create_purchaser(purchaser_attrs)
-      }.to change(Purchaser, :count).by(1)
+        Importer.create_person(person_attrs)
+      }.to change(Person, :count).by(1)
     end
 
-    it "should find an existing purchaser" do
-      existing_purchaser
-      Importer.create_purchaser(purchaser_attrs).should == existing_purchaser
+    it "should find an existing person" do
+      existing_person
+      Importer.create_person(person_attrs).should == existing_person
     end
 
     it "can raise validation errors" do
       expect{
-        Importer.create_purchaser(name: '')
+        Importer.create_person(name: '')
       }.to raise_error ActiveRecord::RecordInvalid
     end
   end
@@ -99,11 +99,11 @@ describe Importer do
   context "#create_purchases" do
     it "should create a given number of purchases" do
       expect{
-        Importer.create_purchases(existing_purchaser, existing_item, 2)
+        Importer.create_purchases(existing_person, existing_item, 2)
       }.to change(Purchase, :count).by(2)
     end
 
-    it "can raise validation error if purchaser is nil" do
+    it "can raise validation error if person is nil" do
       expect{
         Importer.create_purchases(nil, existing_item, 2)
       }.to raise_error ActiveRecord::RecordInvalid
@@ -111,13 +111,13 @@ describe Importer do
 
     it "can raise validation error if item is nil" do
       expect{
-        Importer.create_purchases(existing_purchaser, nil, 2)
+        Importer.create_purchases(existing_person, nil, 2)
       }.to raise_error ActiveRecord::RecordInvalid
     end
 
     it "will not create purchases if count is nil" do
       expect{
-        Importer.create_purchases(existing_purchaser, existing_item, nil)
+        Importer.create_purchases(existing_person, existing_item, nil)
       }.to change(Purchase, :count).by(0)
     end
   end

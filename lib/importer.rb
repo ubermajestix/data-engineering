@@ -19,7 +19,7 @@ class Importer
       # Parse data from the row
       merchant_data  = {name: row["merchant_name"], address: ["merchant address"]}
       item_data      = {description: row["item description"], price: row["item price"]}
-      purchaser_data = {name: row["purchaser name"]}
+      person_data = {name: row["purchaser name"]}
       purchase_count  = row["purchase count"]
       
     end
@@ -56,17 +56,17 @@ class Importer
     item
   end
   
-  # Search for purchaser by name.
+  # Search for person by name.
   # If one isn't found, one will be created for you.
-  # Returns a Purchaser
+  # Returns a Person
   # Raises ActiveRecord::RecordInvalid if name is nil.
-  def self.create_purchaser(attrs)
-    purchaser = Purchaser.where(attrs).first
-    purchaser = Purchaser.create!(attrs) unless purchaser
-    purchaser
+  def self.create_person(attrs)
+    person = Person.where(attrs).first
+    person = Person.create!(attrs) unless person
+    person
   end
 
-  def self.create_purchases(purchaser, item, count)
+  def self.create_purchases(person, item, count)
 
   end 
 

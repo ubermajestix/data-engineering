@@ -7,8 +7,8 @@ describe Purchase do
       subject.should be_valid
     end
     
-    it "verify presence of a purchaser" do
-      subject.purchaser = nil
+    it "verify presence of a person" do
+      subject.person = nil
       subject.should_not be_valid
     end
 

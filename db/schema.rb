@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(:version => 20120422184530) do
     t.string "address"
   end
 
-  create_table "purchasers", :force => true do |t|
+  create_table "people", :force => true do |t|
     t.string "name", :null => false
   end
 
