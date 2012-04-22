@@ -46,4 +46,14 @@ describe Importer do
       }.to raise_error ActiveRecord::RecordInvalid
     end
   end
+
+  context "#create_item" do
+    let(:merchant){Fabricate(:merchant)}
+    let(:item_attrs){ {description: "$10 off $20 of tea", price: 100} }
+    it "should create an item given a hash and a merchant" do
+      expect{
+        Importer.create_item(merchant, item_attrs)
+      }.to change(Item, :count).by(1)
+    end
+  end
 end
