@@ -100,7 +100,7 @@ describe Importer do
     it "should create a given number of purchases" do
       expect{
         Importer.create_purchases(existing_purchaser, existing_item, 2)
-      }.to change(Purchases, :count).by(2)
+      }.to change(Purchase, :count).by(2)
     end
 
     it "can raise validation error if purchaser is nil" do
@@ -118,7 +118,7 @@ describe Importer do
     it "will not create purchases if count is nil" do
       expect{
         Importer.create_purchases(existing_purchaser, existing_item, nil)
-      }.to change(Purchases, :count).by(0)
+      }.to change(Purchase, :count).by(0)
     end
   end
 end
