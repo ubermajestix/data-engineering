@@ -17,11 +17,15 @@ class Importer
   def self.process_csv(path_to_import_data)
     CSV.foreach(path_to_import_data, col_sep: "\t", headers: true) do |row|
       # Parse data from the row
-      merchant_data  = {name: row["merchant_name"], address: ["merchant address"]}
+      merchant_data  = {name: row["merchant name"], address: row["merchant address"]}
       item_data      = {description: row["item description"], price: row["item price"]}
       person_data = {name: row["purchaser name"]}
       purchase_count  = row["purchase count"]
-      
+      # Create objects in db
+      merchant = create_merchant(merchant_data)
+      item = create_item(merchant, item_data)
+      person = create_person(person_data)
+      create_purchases(person, item, purchase_count)
     end
   end
   
@@ -52,7 +56,7 @@ class Importer
   # price are nil.
   def self.create_item(merchant, attrs)
     item = Item.where(merchant_id: merchant, description: attrs[:description]).first
-    item = Item.create!(attrs.merge(merchant_id: merchant)) unless item
+    item = Item.create!(attrs.merge(merchant: merchant)) unless item
     item
   end
   
