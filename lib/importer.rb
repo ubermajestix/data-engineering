@@ -44,7 +44,6 @@ class Importer
     merchant = Merchant.create!(attrs) unless merchant
     merchant
   end
-
   
   # Search for item by merchant and description
   # If no item is found create one.
@@ -56,6 +55,11 @@ class Importer
     item = Item.create!(attrs.merge(merchant_id: merchant)) unless item
     item
   end
+
+  def self.create_purchaser(attrs)
+    purchaser = Purchaser.where(attrs).first
+    purchaser = Purchaser.create!(attrs) unless purchaser
+    purchaser
   end 
 
 end
