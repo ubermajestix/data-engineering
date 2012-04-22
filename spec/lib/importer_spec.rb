@@ -73,4 +73,14 @@ describe Importer do
       }.to raise_error ActiveRecord::RecordInvalid
     end
   end
+
+  context "#create_purchaser" do
+    let(:purchaser_attrs){{name: 'Arthur Dent'}}
+
+    it "should create a purchaser given a hash" do
+      expect{
+        Importer.create_purchaser(purchaser_attrs)
+      }.to change(Purchaser, :count).by(1)
+    end
+  end
 end
