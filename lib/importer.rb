@@ -16,11 +16,11 @@ class Importer
 
   def self.process_csv(path_to_import_data)
     CSV.foreach(path_to_import_data, col_sep: "\t", headers: true) do |row|
-      # parse the data
+      # Parse data from the row
       merchant_data  = {name: row["merchant_name"], address: ["merchant address"]}
       item_data      = {description: row["item description"], price: row["item price"]}
       purchaser_data = {name: row["purchaser name"]}
-      purchase_data  = {count: row["purchase count"]}
+      purchase_count  = row["purchase count"]
       
     end
   end
