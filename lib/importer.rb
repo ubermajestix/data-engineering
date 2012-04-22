@@ -40,6 +40,11 @@ class Importer
     merchant
   end
 
-  
+  def self.create_item(merchant, attrs)
+    attrs.merge!(merchant_id: merchant)
+    item = Item.where(merchant_id: merchant, description: attrs[:description]).first
+    item = Item.create!(attrs) unless item
+    item
+  end 
 
 end

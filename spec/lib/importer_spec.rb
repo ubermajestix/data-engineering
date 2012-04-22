@@ -50,10 +50,27 @@ describe Importer do
   context "#create_item" do
     let(:merchant){Fabricate(:merchant)}
     let(:item_attrs){ {description: "$10 off $20 of tea", price: 100} }
+    let(:existing_item){Fabricate(:item, item_attrs.merge(merchant: merchant))}
+
     it "should create an item given a hash and a merchant" do
       expect{
         Importer.create_item(merchant, item_attrs)
       }.to change(Item, :count).by(1)
+    end
+
+    it "should assign the merchant to the item" do
+      Importer.create_item(merchant, item_attrs).merchant.should == merchant
+    end
+
+    it "should find an existing item" do
+      existing_item
+      Importer.create_item(merchant, item_attrs).should == existing_item
+    end
+
+    it "can raise validation errors" do
+      expect{
+        Importer.create_item(merchant, price: 10)
+      }.to raise_error ActiveRecord::RecordInvalid
     end
   end
 end
