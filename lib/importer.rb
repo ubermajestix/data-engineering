@@ -64,6 +64,10 @@ class Importer
     purchaser = Purchaser.where(attrs).first
     purchaser = Purchaser.create!(attrs) unless purchaser
     purchaser
+  end
+
+  def self.create_purchases(purchaser, item, count)
+
   end 
 
 end
