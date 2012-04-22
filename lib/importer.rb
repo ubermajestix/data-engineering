@@ -24,4 +24,13 @@ class Importer
       
     end
   end
+
+  def self.create_merchant(attrs)
+    merchant = Merchant.where(attrs).first
+    merchant = Merchant.create!(attrs) unless merchant
+    merchant
+  end
+
+  
+
 end
