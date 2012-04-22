@@ -67,7 +67,10 @@ class Importer
   end
 
   def self.create_purchases(person, item, count)
-
+    return unless count
+    count.times do
+      Purchase.create!(person_id: person, item_id: item)
+    end
   end 
 
 end
