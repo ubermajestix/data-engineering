@@ -55,7 +55,11 @@ class Importer
     item = Item.create!(attrs.merge(merchant_id: merchant)) unless item
     item
   end
-
+  
+  # Search for purchaser by name.
+  # If one isn't found, one will be created for you.
+  # Returns a Purchaser
+  # Raises ActiveRecord::RecordInvalid if name is nil.
   def self.create_purchaser(attrs)
     purchaser = Purchaser.where(attrs).first
     purchaser = Purchaser.create!(attrs) unless purchaser
