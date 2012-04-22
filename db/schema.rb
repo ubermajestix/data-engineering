@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(:version => 20120422184530) do
   end
 
   create_table "purchases", :force => true do |t|
-    t.integer  "purchaser_id", :null => false
-    t.integer  "item_id",      :null => false
+    t.integer  "person_id",  :null => false
+    t.integer  "item_id",    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
