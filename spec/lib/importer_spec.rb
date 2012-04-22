@@ -76,11 +76,23 @@ describe Importer do
 
   context "#create_purchaser" do
     let(:purchaser_attrs){{name: 'Arthur Dent'}}
+    let(:existing_purchaser){Fabricate(:purchaser, purchaser_attrs)}
 
     it "should create a purchaser given a hash" do
       expect{
         Importer.create_purchaser(purchaser_attrs)
       }.to change(Purchaser, :count).by(1)
+    end
+
+    it "should find an existing purchaser" do
+      existing_purchaser
+      Importer.create_purchaser(purchaser_attrs).should == existing_purchaser
+    end
+
+    it "can raise validation errors" do
+      expect{
+        Importer.create_purchaser(name: '')
+      }.to raise_error ActiveRecord::RecordInvalid
     end
   end
 end
