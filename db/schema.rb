@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120422023557) do
+ActiveRecord::Schema.define(:version => 20120422040636) do
 
   create_table "items", :force => true do |t|
     t.string  "description",                   :null => false
@@ -23,6 +23,10 @@ ActiveRecord::Schema.define(:version => 20120422023557) do
   create_table "merchants", :force => true do |t|
     t.string "name"
     t.string "address"
+  end
+
+  create_table "purchasers", :force => true do |t|
+    t.string "name", :null => false
   end
 
 end
