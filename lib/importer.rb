@@ -24,7 +24,16 @@ class Importer
       
     end
   end
-
+  
+  # Errors could creep up if data was blank and we had merchants with
+  # multiple addresses. If the address field in that scenario was blank
+  # we could select the wrong merchant b/c we would look them up by name
+  # and grab the first one which could be the incorrect.
+  # Why did this company not use ids? Why are there no primary keys? 
+  # Who was doing technical due diligence? Gah!
+  #
+  # However, given the validations on merchant that require a name and
+  # address I'm confident this code will work given the example data.
   def self.create_merchant(attrs)
     merchant = Merchant.where(attrs).first
     merchant = Merchant.create!(attrs) unless merchant

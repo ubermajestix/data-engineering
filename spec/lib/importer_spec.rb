@@ -34,6 +34,12 @@ describe Importer do
       Importer.create_merchant(merchant_attrs).should == existing_merchant
     end
 
+    it "should not create a merchant with blank strings" do
+      expect{
+        Importer.create_merchant(name: '', address: '')
+      }.to raise_error ActiveRecord::RecordInvalid
+    end
+
     it "will raise validation errors" do
       expect{
         Importer.create_merchant(name: 'blowzup')
