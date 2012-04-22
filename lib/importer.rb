@@ -40,11 +40,17 @@ class Importer
     merchant
   end
 
+  
+  # Search for item by merchant and description
+  # If no item is found create one.
+  # Returns an Item
+  # Raises ActiveRecord::RecordInvalid if description, merchant, or
+  # price are nil.
   def self.create_item(merchant, attrs)
-    attrs.merge!(merchant_id: merchant)
     item = Item.where(merchant_id: merchant, description: attrs[:description]).first
-    item = Item.create!(attrs) unless item
+    item = Item.create!(attrs.merge(merchant_id: merchant)) unless item
     item
+  end
   end 
 
 end
