@@ -10,7 +10,11 @@ describe Accounting do
   subject{Accounting.new(purchases)}
 
   it "should return the gross revenue given an Array of Purchase objects" do
-    puts subject.revenue.inspect
+    puts subject.calculate_revenue.inspect
     subject.revenue.should == Money.new(1500)
+  end
+
+  it "should display the revenue as dollars" do
+    subject.display_revenue.should == "$15.00"
   end
 end

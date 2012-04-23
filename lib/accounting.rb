@@ -5,16 +5,20 @@
 class Accounting
   # An Array of Purchase objects
   attr_reader :purchases
-
+  attr_accessor :revenue
   def initialize(purchases)
     @purchases = purchases
   end
   
   # Calculates the total revenue of from purchases.
   # Retunrs a Money object
-  def revenue
-    purchases.inject(Money.new(0)){|revenue, purchase| revenue += purchase.price_paid; revenue} 
+  def calculate_revenue
+    @revenue = purchases.inject(Money.new(0)){|revenue, purchase| revenue += purchase.price_paid; revenue} 
+  end
+  
+  # Returns the revenue formatted in dollars as a String
   def display_revenue
+    calculate_revenue if revenue.nil?
     sprintf("$%.2f", revenue.dollars)
   end
 end
