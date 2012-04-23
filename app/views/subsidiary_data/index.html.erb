@@ -1,0 +1,7 @@
+<% if @subsidiary_data.any? -%>
+   <% for item in @subsidiary_data  %>
+     <div><%= item.debug %></div>
+   <% end %>
+<% else -%>
+  No subsidiary data found. <%= link_to "upload some data?", subsidiary_data_path %>
+<% end -%>
