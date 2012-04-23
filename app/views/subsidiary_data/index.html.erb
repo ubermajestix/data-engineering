@@ -1,3 +1,8 @@
+<div class="hero-unit">
+  <h1>Total revenue: <%= @revenue.to_f %>!</h1>
+  <p><%= @purchases.size %> purchases have been made!</p>
+</div>
+
 <% if @subsidiary_data.any? -%>
    <% for item in @subsidiary_data  %>
      <div><%= item.debug %></div>
