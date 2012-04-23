@@ -3,7 +3,7 @@ class SubsidiaryDataController < ApplicationController
   def index
     @purchases = Purchase.all
     accounting = Accounting.new(@purchases)
-    @revenue = accounting.revenue
+    @revenue = accounting.display_revenue
     @subsidiary_data = SubsidiaryData.all
   end
 
