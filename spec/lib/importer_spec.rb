@@ -7,34 +7,38 @@ describe Importer do
   let(:existing_person){Fabricate(:person, person_attrs)}
   let(:item_attrs){ {description: "$10 off $20 of tea", price: 100} }
   let(:existing_item){Fabricate(:item, item_attrs.merge(merchant: existing_merchant))}
-  let(:mock_upload){Object.new}
-  
-  context "creating objects from the tab file" do
-    let(:upload_id){1}
-    before {mock(mock_upload).import_data_file_name{Rails.root.join("spec/fixtures/example_input.tab")}}
-    before {stub(Upload).find(upload_id){mock_upload}}
+  let(:subsidiary_data){Fabricate(:subsidiary_data)}
 
+  context "#perform" do
+    it "should find SubsidiaryData and call process csv" do
+      mock(Importer).process_csv(subsidiary_data.import_data.current_path)
+      mock(SubsidiaryData).find(subsidiary_data.id){subsidiary_data}
+      Importer.perform(subsidiary_data.id)
+    end
+  end
+
+  context "creating objects from the tab file" do
     it "process the data provided by an upload object" do
       expect{
-        Importer.perform(upload_id)
+        Importer.perform(subsidiary_data.id)
       }.to change(Person, :count).by(3)
     end
 
     it "process the data provided by an upload object" do
       expect{
-        Importer.perform(upload_id)
+        Importer.perform(subsidiary_data.id)
       }.to change(Item, :count).by(3)
     end
     
     it "process the data provided by an upload object" do
       expect{
-        Importer.perform(upload_id)
+        Importer.perform(subsidiary_data.id)
       }.to change(Merchant, :count).by(3)
     end
 
     it "process the data provided by an upload object" do
       expect{
-        Importer.perform(upload_id)
+        Importer.perform(subsidiary_data.id)
       }.to change(Purchase, :count).by(12)
     end
   end

@@ -8,10 +8,17 @@
 # time to process.
 # Thus, I will use Resque to process the import tasks in the background.
 class Importer
+  # This is used to identify which Resque queue this job will be placed into.
   @queue = "importer"
-  def self.perform(upload_id)
-    upload = Upload.find(upload_id)
-    process_csv(upload.import_data_file_name)
+
+  # This is the entry point for Resque.
+  # This will find the SubsidiaryData object and process it's import_data.
+  #
+  # subsidiary_data_id - The String or Integer id of a SubsidiaryData object.
+  #
+  def self.perform(subsidiary_data_id)
+    subsidiary_data = SubsidiaryData.find(subsidiary_data_id)
+    process_csv(subsidiary_data.import_data.current_path)
   end
 
   def self.process_csv(path_to_import_data)
