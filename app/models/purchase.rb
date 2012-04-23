@@ -6,4 +6,8 @@ class Purchase < ActiveRecord::Base
   validates :person_id, presence: true
   belongs_to :item
   validates :item_id, presence: true
+
+  def price_paid
+    item.price
+  end
 end
