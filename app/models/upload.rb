@@ -8,6 +8,12 @@
 # This information could be useful to us when we want to refactor
 # and attempt to make things faster. We would then have a benchmark to
 # measure our, hopefully, improved processing code against.
-class Upload
 
+# This class is responsible for file managment via CarrierWave.
+# I chose CarrierWave over Paperclip b/c it does not have a dependency on ImageMagick.
+# Also, having a class that only deals with storing and retreiving files
+# is handy and doesn't muck up the activerecord class. You know,
+# separation of concerns and stuff.
+class Upload < CarrierWave::Uploader::Base
+  storage :file
 end
