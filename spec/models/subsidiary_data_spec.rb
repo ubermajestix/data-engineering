@@ -2,6 +2,18 @@ require 'spec_helper'
 require 'carrierwave/test/matchers'
 
 describe SubsidiaryData do
+
+  context "#async_process_import_data" do
+    
+    subject{Fabricate(:subsidiary_data)}
+
+    it "should enqueue the Resque job" do
+      mock(Resque).enqueue(Importer, subject.id){}
+      subject.async_process_import_data
+    end
+  
+  end
+
   context "#processing? and #start_processing" do
     it "should not be processing if started_processing_at is nil" do
       subject.should_not be_processing
