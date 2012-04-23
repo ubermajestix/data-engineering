@@ -25,10 +25,10 @@ class SubsidiaryData < ActiveRecord::Base
   end
 
   def start_processing
-    self.started_processing_at = Time.now
+    self.update_attributes(started_processing_at:  Time.now)
   end
 
   def finish_processing
-    self.finished_processing_at = Time.now
+    self.update_attributes(finished_processing_at: Time.now)
   end
 end

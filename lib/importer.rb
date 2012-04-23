@@ -18,7 +18,9 @@ class Importer
   #
   def self.perform(subsidiary_data_id)
     subsidiary_data = SubsidiaryData.find(subsidiary_data_id)
+    subsidiary_data.start_processing
     process_csv(subsidiary_data.import_data.current_path)
+    subsidiary_data.finish_processing
   end
 
   # Creates and associates objects from the data at the given path.

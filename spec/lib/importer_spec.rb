@@ -15,6 +15,14 @@ describe Importer do
       mock(SubsidiaryData).find(subsidiary_data.id){subsidiary_data}
       Importer.perform(subsidiary_data.id)
     end
+    
+    it "should mark SubsidiaryData as finished" do
+      mock(Importer).process_csv(subsidiary_data.import_data.current_path)
+      Importer.perform(subsidiary_data.id)
+      subsidiary_data.reload
+      subsidiary_data.should be_processed
+    end
+
   end
 
   context "creating objects from the tab file" do
@@ -46,9 +54,6 @@ describe Importer do
   context "handling errors" do
     it "should handle validation errors" do
       stub(Importer).create_merchant{
-        #object_with_errors = Object.new
-        #stub(object_with_errors).errors{}
-        #stub(object_with_errors.errors).full_messages{ [] }dd
         raise ActiveRecord::RecordInvalid.new(existing_merchant)
       }
       expect{
