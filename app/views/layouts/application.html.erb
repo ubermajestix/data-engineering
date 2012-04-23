@@ -1,14 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>DataEngineering</title>
-  <%= stylesheet_link_tag    "application" %>
-  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag    "bootstrap", 'bootstrap=responsive', 'application' %>
+  <%= javascript_include_tag "bootstrap.js" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
-
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <%= link_to "DataImporter", root_path, class: 'brand' %>
+      </div>
+    </div>
+  </div>
+  <div id="page" class="container">
+    <%= yield %>
+  </div>
 </body>
 </html>

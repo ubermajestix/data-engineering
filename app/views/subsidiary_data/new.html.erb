@@ -1,0 +1,5 @@
+<h2>Import subsidiary data</h2>
+<%= form_for @subsidiary_data, url: subsidiary_data_path, method: :post, html: {multipart: true, class: 'well form-vertical'} do |f| -%>
+  <%= f.file_field :import_data %>
+  <%= f.submit 'Upload data', class: 'btn' %>
+<% end -%>
