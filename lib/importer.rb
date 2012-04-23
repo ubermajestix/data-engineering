@@ -21,6 +21,10 @@ class Importer
     process_csv(subsidiary_data.import_data.current_path)
   end
 
+  # Creates and associates objects from the data at the given path.
+  #
+  # path_to_import_data = String path to the TAB delimited file on the file system.
+  #
   def self.process_csv(path_to_import_data)
     CSV.foreach(path_to_import_data, col_sep: "\t", headers: true) do |row|
       # Parse data from the row
@@ -29,13 +33,31 @@ class Importer
       person_data    = {name: row["purchaser name"]}
       purchase_count = row["purchase count"]
       # Create objects in db
-      merchant = create_merchant(merchant_data)
-      item     = create_item(merchant, item_data)
-      person   = create_person(person_data)
-      create_purchases(person, item, purchase_count)
+      begin
+        merchant = create_merchant(merchant_data)
+        item     = create_item(merchant, item_data)
+        person   = create_person(person_data)
+        create_purchases(person, item, purchase_count)
+      rescue ActiveRecord::RecordInvalid => e
+        logger.error e.inspect
+        # Here we could do a number of things
+        # 1. We could log the error and move on
+        # 2. We could halt the processing of the csv and mark the SubsidiaryData 
+        #    object as failed and which row failed.
+        # 3. We could keep track of which rows failed, maybe build a csv of failures so 
+        #    someone could review it later, and attach it to a FailedData object or something.
+        # Given the example data will not raise an Error, this isn't yet a concern of this
+        # app. However, in the "real world" what we do here is will hugely effect how awesome
+        # or shitty this system is to use and how quickly we can get data into the db.
+      end
     end
   end
-  
+ 
+  # Just use Rail's logger for now.
+  def self.logger
+    Rails.logger
+  end
+
   # Find a merchant by name and address.
   # If no merchants are found create one.
   # Returns a Merchant.
@@ -76,6 +98,7 @@ class Importer
     person = Person.create!(attrs) unless person
     person
   end
+
   # Will create a Purchase for the given Person and the given Item count
   # number of times.
   # This will not create a purchase if count is nil, or a String that

@@ -43,6 +43,20 @@ describe Importer do
     end
   end
 
+  context "handling errors" do
+    it "should handle validation errors" do
+      stub(Importer).create_merchant{
+        #object_with_errors = Object.new
+        #stub(object_with_errors).errors{}
+        #stub(object_with_errors.errors).full_messages{ [] }dd
+        raise ActiveRecord::RecordInvalid.new(existing_merchant)
+      }
+      expect{
+        Importer.process_csv(subsidiary_data.import_data.current_path)
+      }.to_not raise_error
+    end
+  end
+
   context "required for Resque" do
     it "should respond to perform" do
       Importer.should respond_to :perform
