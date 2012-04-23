@@ -19,16 +19,21 @@ class Importer
       # Parse data from the row
       merchant_data  = {name: row["merchant name"], address: row["merchant address"]}
       item_data      = {description: row["item description"], price: row["item price"]}
-      person_data = {name: row["purchaser name"]}
-      purchase_count  = row["purchase count"]
+      person_data    = {name: row["purchaser name"]}
+      purchase_count = row["purchase count"]
       # Create objects in db
       merchant = create_merchant(merchant_data)
-      item = create_item(merchant, item_data)
-      person = create_person(person_data)
+      item     = create_item(merchant, item_data)
+      person   = create_person(person_data)
       create_purchases(person, item, purchase_count)
     end
   end
   
+  # Find a merchant by name and address.
+  # If no merchants are found create one.
+  # Returns a Merchant.
+  # Raises ActiveRecord::RecordInvalid if name or address are nil.
+  #
   # Errors could creep up if data was blank and we had merchants with
   # multiple addresses. If the address field in that scenario was blank
   # we could select the wrong merchant b/c we would look them up by name
@@ -38,11 +43,6 @@ class Importer
   #
   # However, given the validations on merchant that require a name and
   # address I'm confident this code will work given the example data.
-  # 
-  # Find a merchant by name and address.
-  # If no merchants are found create one.
-  # Returns a Merchant.
-  # Raises ActiveRecord::RecordInvalid if name or address are nil.
   def self.create_merchant(attrs)
     merchant = Merchant.where(attrs).first
     merchant = Merchant.create!(attrs) unless merchant
