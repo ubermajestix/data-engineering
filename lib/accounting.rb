@@ -14,5 +14,7 @@ class Accounting
   # Retunrs a Money object
   def revenue
     purchases.inject(Money.new(0)){|revenue, purchase| revenue += purchase.price_paid; revenue} 
+  def display_revenue
+    sprintf("$%.2f", revenue.dollars)
   end
 end
