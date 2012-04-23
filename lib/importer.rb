@@ -7,6 +7,7 @@
 # imported is going to be much larger and take a signicant amount of
 # time to process.
 # Thus, I will use Resque to process the import tasks in the background.
+require 'csv'
 class Importer
   # This is used to identify which Resque queue this job will be placed into.
   @queue = "importer"
