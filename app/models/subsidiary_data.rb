@@ -10,6 +10,11 @@
 # improved processing code against.
 class SubsidiaryData < ActiveRecord::Base
   mount_uploader :import_data, Upload
+  
+
+  def async_process_import_data
+    Resque.enqueue(Importer, self.id)
+  end
 
   def processing?
     !!started_processing_at && !processed?
