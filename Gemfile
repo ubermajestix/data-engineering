@@ -5,6 +5,7 @@ gem 'sqlite3'
 gem 'jquery-rails'
 gem 'money',        '~> 5.0.0'
 gem 'carrierwave',  '~> 0.5.8'
+gem 'resque',       '~> 1.20.0'
 
 group :assets do
   gem 'sass-rails',   '~> 3.1.5'
