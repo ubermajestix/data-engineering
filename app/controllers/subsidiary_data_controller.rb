@@ -20,4 +20,10 @@ class SubsidiaryDataController < ApplicationController
       render :new
     end
   end
+
+  def destroy
+    @subsidiary_data = SubsidiaryData.find(params[:id])
+    @subsidiary_data.destroy
+    redirect_to subsidiary_data_path
+  end
 end

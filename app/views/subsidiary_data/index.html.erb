@@ -5,7 +5,10 @@
 
 <% if @subsidiary_data.any? -%>
    <% for item in @subsidiary_data  %>
-     <div><%= item.debug %></div>
+     <div class="well">
+       <%= debug item%>
+       <%= link_to 'destroy',  subsidiary_datum_path(item.id), method: :delete, confirm: 'are you sure you want to remove this data?'%>
+     </div>
    <% end %>
 <% else -%>
   No subsidiary data found. <%= link_to "upload some data?", new_subsidiary_datum_path %>
