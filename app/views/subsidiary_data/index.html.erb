@@ -1,15 +1,24 @@
 <div class="hero-unit">
   <h1>Total revenue: <%= @revenue %>!</h1>
   <p><%= @purchases.size %> purchases have been made!</p>
+  <%= link_to "upload data", new_subsidiary_datum_path, class: 'btn btn-primary' %>
 </div>
 
 <% if @subsidiary_data.any? -%>
    <% for item in @subsidiary_data  %>
      <div class="well">
-       <%= debug item%>
-       <%= link_to 'destroy',  subsidiary_datum_path(item.id), method: :delete, confirm: 'are you sure you want to remove this data?'%>
+      <h2>Subsidiary Data id: <%= item.id %></h2>
+      <p>
+        <% if item.processed? -%>
+          Processed at: <%= item.finished_processing_at.strftime("%T UTC %F") %>
+        <% else -%>
+          Queued. Refresh the page to check status. <%= link_to 'see resque stats', '/resque/stats/resque', target: "_new" %>
+        <% end -%>
+      </p>
+      <%= link_to 'destroy',  subsidiary_datum_path(item.id), method: :delete, confirm: 'are you sure you want to remove this data?'%>
      </div>
    <% end %>
 <% else -%>
-  No subsidiary data found. <%= link_to "upload some data?", new_subsidiary_datum_path %>
+  No subsidiary data found. 
 <% end -%>
+
