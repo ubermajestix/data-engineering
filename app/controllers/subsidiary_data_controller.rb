@@ -2,6 +2,9 @@ class SubsidiaryDataController < ApplicationController
 
   def index
     @purchases = Purchase.all
+    @people = Person.count
+    @items = Item.count
+    @merchants = Merchant.count
     accounting = Accounting.new(@purchases)
     @revenue = accounting.display_revenue
     @subsidiary_data = SubsidiaryData.all

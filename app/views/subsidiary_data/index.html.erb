@@ -1,6 +1,7 @@
 <div class="hero-unit">
   <h1>Total revenue: <%= @revenue %>!</h1>
   <p><%= @purchases.size %> purchases have been made!</p>
+  <p><%= @people %> people, <%= @items %> items, <%= @merchants %> merchants</p>
   <%= link_to "upload data", new_subsidiary_datum_path, class: 'btn btn-primary' %>
 </div>
 
