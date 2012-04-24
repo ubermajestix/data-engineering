@@ -15,7 +15,7 @@ class SubsidiaryDataController < ApplicationController
     @subsidiary_data = SubsidiaryData.new(params[:subsidiary_data])
     if @subsidiary_data.save
       @subsidiary_data.async_process_import_data
-      redirect_to :index
+      redirect_to subsidiary_data_path
     else
       render :new
     end
