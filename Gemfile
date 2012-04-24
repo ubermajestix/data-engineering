@@ -14,6 +14,7 @@ group :assets do
 end
 
 group :test, :development do
+  gem 'foreman',      '~> 0.44.0'
   gem 'rspec-rails',  '~> 2.6'
   gem 'rr',           '~> 1.0.4'
   gem 'fabrication',  '~> 1.3.2'
